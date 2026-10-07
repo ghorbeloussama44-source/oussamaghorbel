@@ -1,0 +1,73 @@
+/* ==========================================================
+   Motion design : préchargeur, curseur, effets de cartes
+   ========================================================== */
+
+/* ---------- Préchargeur ---------- */
+.loader { display: none; }
+.js .loader {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  background: var(--ink); color: var(--on-dark);
+}
+.loader__inner { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.loader__logo { width: 96px; height: 96px; overflow: visible; }
+.loader__logo .draw {
+  fill: none; stroke: var(--gold-2); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+}
+.loader__logo .draw--g { stroke: var(--on-dark); stroke-width: 6.5; }
+.loader__logo .draw--thread { stroke-width: 1.5; }
+.loader__count { font-size: .8rem; font-weight: 700; letter-spacing: .3em; color: var(--on-dark-muted); font-variant-numeric: tabular-nums; }
+.no-motion .loader { display: none; }
+
+/* GSAP prend le relais des apparitions CSS. */
+.has-motion .reveal { opacity: 1; transform: none; transition: none; }
+
+/* ---------- Curseur ---------- */
+.cursor { display: none; }
+.has-cursor .cursor { display: block; }
+.has-cursor .cursor span {
+  position: fixed; left: 0; top: 0; z-index: 300; pointer-events: none; border-radius: 50%;
+}
+.cursor__dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--gold-2); }
+.cursor__ring {
+  width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1.5px solid rgba(230, 199, 124, .7);
+  transition: width .35s, height .35s, margin .35s, background .35s, border-color .35s, opacity .3s;
+}
+.cursor-hover .cursor__ring { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: rgba(230, 199, 124, .12); border-color: transparent; }
+.cursor-view .cursor__ring { width: 84px; height: 84px; margin: -42px 0 0 -42px; background: rgba(230, 199, 124, .9); mix-blend-mode: normal; }
+.cursor-out .cursor span { opacity: 0; }
+
+/* ---------- Cartes : profondeur et reflet ---------- */
+.has-motion .projects, .has-motion .domains { perspective: 1200px; }
+.has-motion .project, .has-motion .domain { transform-style: preserve-3d; will-change: transform; }
+.has-motion .project:hover, .has-motion .domain:hover { transform: none; }
+.project::after, .domain::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(230, 199, 124, .16), transparent 45%);
+  transition: opacity .4s;
+}
+.domain { position: relative; }
+.project:hover::after, .domain:hover::after { opacity: 1; }
+
+/* ---------- Galerie : l'image bouge dans son cadre ---------- */
+.gallery button { isolation: isolate; }
+.gallery img { will-change: transform; }
+
+/* ---------- Boutons ---------- */
+.magnetic { will-change: transform; }
+.btn--primary { position: relative; overflow: hidden; }
+.btn--primary::before {
+  content: ""; position: absolute; inset: 0; background: var(--on-dark); transform: translateY(101%);
+  transition: transform .5s cubic-bezier(.7, 0, .2, 1); border-radius: inherit;
+}
+.btn--primary:hover::before { transform: none; }
+.btn--primary span { position: relative; }
+
+/* ---------- Défilement fluide (Lenis) ---------- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__grain, .hero__orbit svg, .hero__scroll span { animation: none; }
+}

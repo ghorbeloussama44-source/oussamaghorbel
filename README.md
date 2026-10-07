@@ -9,11 +9,16 @@ En ligne : https://ghorbeloussama44-source.github.io/oussamaghorbel/
 
 ```
 index.html            page unique (sections : à propos, portfolio, parcours, compétences, galerie, contact)
-assets/css/site.css   styles
+assets/css/site.css   mise en page et thème
+assets/css/motion.css styles des animations (préchargeur, curseur, cartes)
 assets/js/i18n.js     textes de l'interface dans les 4 langues
 assets/js/content.js  contenu : projets, expériences, formations, compétences, galerie
 assets/js/site.js     rendu, changement de langue, filtres, galerie
-assets/img/           images optimisées pour le web
+assets/js/gl.js       fond WebGL du hero (étoffe de soie animée)
+assets/js/motion.js   motion design : intro, parallaxe, défilement fluide, apparitions
+assets/vendor/        GSAP, ScrollTrigger et Lenis (copiés localement, sans CDN)
+assets/img/           images web, logo, personnage détouré
+.claude/skills/       guide de design et de motion pour Claude Code
 assets/images/        photos originales
 assets/files/         CV en PDF
 history/              ancien projet Mobirise (2017)
