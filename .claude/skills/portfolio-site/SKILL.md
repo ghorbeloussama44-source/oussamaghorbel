@@ -17,6 +17,7 @@ bibliothèques sont copiées dans `assets/vendor/` (GSAP, ScrollTrigger, Lenis).
 | `assets/js/content.js` | Contenu : `PROJECTS`, `EXPERIENCE`, `EDUCATION`, `TRAINING`, `SKILLS`, `GALLERY`. |
 | `assets/js/site.js` | Rendu, langue, filtres. Émet `site:render` et `site:filter` sur `document`. |
 | `assets/js/gl.js` | Shader WebGL du hero (étoffe de soie, trame de tissage, reflet doré suivant la souris). |
+| `assets/js/sparkles.js` | Éclats dorés en parallaxe, sur deux canvas (derrière et devant le personnage), plus une traînée d'éclats sous la souris. |
 | `assets/js/motion.js` | Préchargeur, intro, Lenis, parallaxe, apparitions au scroll, marquee, curseur, boutons magnétiques. |
 | `assets/css/site.css` | Mise en page et thème. `assets/css/motion.css` : styles propres aux animations. |
 | `assets/img/` | Images web. `logo.svg` (monogramme OG), `favicon.svg`, `oussama-cutout.webp` (personnage détouré), `og-image.jpg` (partage). |
@@ -29,6 +30,20 @@ bibliothèques sont copiées dans `assets/vendor/` (GSAP, ScrollTrigger, Lenis).
 2. Image : la redimensionner à 1200 px de large maximum, JPEG qualité 80, dans `assets/img/`.
 3. Ne rien inventer : n'écrire que ce qu'Oussama a fourni. Demander en cas de doute
    (dates, intitulés, chiffres).
+
+## Détourer une nouvelle photo
+
+Le personnage du hero (`assets/img/oussama-cutout.webp`) a été détouré avec `rembg`
+et le modèle `birefnet-portrait`, installés dans un venv du dossier temporaire
+(pas dans le dépôt) :
+
+1. `python3 -m venv <tmp>/venv && <tmp>/venv/bin/pip install "rembg[cpu]"`
+2. Générer le masque : `remove(image, session=new_session("birefnet-portrait"), only_mask=True)`.
+3. Recalculer les couleurs des bords avec `pymatting.estimate_foreground_ml(image, alpha)`,
+   puis désaturer ce qui reste de la couleur du fond dans les zones de bord (cheveux).
+4. Rogner au cadre utile, exporter en WebP qualité 90, et mettre à jour `width`/`height` dans `index.html`.
+
+La photo originale est gardée dans `assets/images/`.
 
 ## Identité visuelle
 

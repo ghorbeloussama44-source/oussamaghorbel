@@ -77,7 +77,8 @@
 
   gsap.set(".hero__name .char > span", { yPercent: 115 });
   gsap.set(".hero__in", { y: 30, opacity: 0 });
-  gsap.set(".hero__person", { y: 80, opacity: 0, scale: 0.94 });
+  gsap.set(".hero__figure", { y: 120, opacity: 0, scale: 0.94, transformOrigin: "50% 100%" });
+  gsap.set(".hero__spark", { opacity: 0 });
   gsap.set(".hero__halo, .hero__orbit", { scale: 0.6, opacity: 0 });
   gsap.set(".chip", { scale: 0, opacity: 0 });
   gsap.set(".hero__bigword span", { opacity: 0, yPercent: 30 });
@@ -109,7 +110,8 @@
       .to(".hero__bigword span", { opacity: 1, yPercent: 0, duration: 1.4, ease: "expo.out" }, "-=0.45")
       .to(".hero__name .char > span", { yPercent: 0, duration: 1.1, stagger: 0.035, ease: "expo.out" }, "<0.1")
       .to(".hero__halo, .hero__orbit", { scale: 1, opacity: 1, duration: 1.4, ease: "expo.out" }, "<")
-      .to(".hero__person", { y: 0, opacity: 1, scale: 1, duration: 1.4, ease: "expo.out" }, "<0.1")
+      .to(".hero__figure", { y: 0, opacity: 1, scale: 1, duration: 1.5, ease: "expo.out" }, "<0.1")
+      .to(".hero__spark", { opacity: 1, duration: 2, ease: "power2.out" }, "<0.3")
       .to(".hero__in", { y: 0, opacity: 1, duration: 0.9, stagger: 0.08, ease: "power3.out" }, "<0.25")
       .to(".chip", { scale: 1, opacity: 1, duration: 0.8, stagger: 0.1, ease: "back.out(2)" }, "<0.2");
   });
@@ -119,8 +121,11 @@
   if (finePointer) {
     var layers = Array.prototype.map.call(document.querySelectorAll(".hero [data-depth]"), function (node) {
       var depth = parseFloat(node.getAttribute("data-depth")) || 0;
+      // Le personnage reste posé sur le bandeau : il ne bouge qu'à l'horizontale.
+      var depthY = node.classList.contains("hero__figure") ? 0 : depth;
       return {
         depth: depth,
+        depthY: depthY,
         x: gsap.quickTo(node, "x", { duration: 1.2, ease: "power3.out" }),
         y: gsap.quickTo(node, "y", { duration: 1.2, ease: "power3.out" })
       };
@@ -129,7 +134,7 @@
     hero.addEventListener("pointermove", function (e) {
       var nx = e.clientX / window.innerWidth - 0.5;
       var ny = e.clientY / window.innerHeight - 0.5;
-      layers.forEach(function (l) { l.x(nx * l.depth * -28); l.y(ny * l.depth * -20); });
+      layers.forEach(function (l) { l.x(nx * l.depth * -28); l.y(ny * l.depthY * -20); });
     });
     hero.addEventListener("pointerleave", function () {
       layers.forEach(function (l) { l.x(0); l.y(0); });
@@ -139,7 +144,7 @@
   /* ---------- Parallaxe au scroll ---------- */
 
   var heroScroll = { trigger: "#hero", start: "top top", end: "bottom top", scrub: true };
-  gsap.to(".hero__stage", { yPercent: 18, ease: "none", scrollTrigger: heroScroll });
+  gsap.to(".hero__stage", { yPercent: 10, ease: "none", scrollTrigger: heroScroll });
   gsap.to(".hero__text", { yPercent: 30, opacity: 0.1, ease: "none", scrollTrigger: heroScroll });
   gsap.to(".hero__bigword", { xPercent: -18, ease: "none", scrollTrigger: heroScroll });
 

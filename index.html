@@ -66,6 +66,8 @@
       <canvas class="hero__gl" id="gl" aria-hidden="true"></canvas>
       <div class="hero__grain" aria-hidden="true"></div>
       <div class="hero__bigword" aria-hidden="true"><span data-depth="0.25">GHORBEL</span></div>
+      <canvas class="hero__spark hero__spark--back" id="sparkBack" aria-hidden="true"></canvas>
+      <canvas class="hero__spark hero__spark--front" id="sparkFront" aria-hidden="true"></canvas>
       <div class="wrap hero__grid">
         <div class="hero__text">
           <p class="kicker hero__in" data-i18n="hero.kicker">Ingénieur textile · Ingénieur en mathématiques · Entrepreneur</p>
@@ -90,7 +92,10 @@
           <div class="hero__orbit" data-depth="0.5" aria-hidden="true">
             <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/><circle cx="50" cy="50" r="38" class="dash"/></svg>
           </div>
-          <img class="hero__person" data-depth="0.8" src="assets/img/oussama-cutout.webp" alt="Portrait d'Oussama Ghorbel" width="760" height="1214" fetchpriority="high">
+          <div class="hero__figure" data-depth="0.7">
+            <img class="hero__person" src="assets/img/oussama-cutout.webp" alt="Portrait d'Oussama Ghorbel" width="1013" height="948" fetchpriority="high">
+            <span class="hero__sheen" aria-hidden="true"></span>
+          </div>
           <span class="chip chip--business" data-depth="1.4" data-domain-label="business"></span>
           <span class="chip chip--textile" data-depth="1.1" data-domain-label="textile"></span>
           <span class="chip chip--it" data-depth="1.6" data-domain-label="it"></span>
@@ -281,6 +286,7 @@
   <script src="assets/js/content.js" defer></script>
   <script src="assets/js/site.js" defer></script>
   <script src="assets/js/gl.js" defer></script>
+  <script src="assets/js/sparkles.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
 </body>
 </html>
