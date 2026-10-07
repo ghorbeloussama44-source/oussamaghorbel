@@ -65,6 +65,7 @@
         state.filter = key;
         renderFilters();
         applyFilter();
+        document.dispatchEvent(new CustomEvent("site:filter"));
       });
       box.appendChild(btn);
     });
@@ -155,6 +156,7 @@
     renderTraining();
     renderSkills();
     renderGallery();
+    document.dispatchEvent(new CustomEvent("site:render"));
   }
 
   /* ---------- Language ---------- */

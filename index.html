@@ -7,7 +7,7 @@
   <meta name="description" content="Oussama Ghorbel — ingénieur textile, ingénieur en mathématiques et entrepreneur. Portfolio : entrepreneuriat, textile, informatique et recherche.">
   <meta property="og:title" content="Oussama Ghorbel — Ingénieur, entrepreneur, créateur">
   <meta property="og:description" content="Entrepreneuriat · Textile · Informatique · Recherche. Français, English, العربية, Русский.">
-  <meta property="og:image" content="assets/img/portrait.jpg">
+  <meta property="og:image" content="assets/img/og-image.jpg">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#11131f">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -15,14 +15,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;600;800&display=swap">
   <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <svg class="loader__logo" viewBox="0 0 100 100">
+        <circle class="draw" cx="50" cy="50" r="42" pathLength="1"/>
+        <path class="draw draw--g" d="M68 37.4 A22 22 0 1 0 72 50 L54 50" pathLength="1"/>
+        <path class="draw draw--thread" d="M14 86 L86 14" pathLength="1"/>
+      </svg>
+      <span class="loader__count"><span id="loaderCount">0</span>%</span>
+    </div>
+  </div>
+  <div class="cursor" aria-hidden="true"><span class="cursor__ring"></span><span class="cursor__dot"></span></div>
+
   <a class="skip" href="#main">Aller au contenu</a>
 
   <header class="nav" id="top">
     <div class="wrap nav__inner">
       <a class="brand" href="#top" aria-label="Oussama Ghorbel">
-        <span class="brand__mark">OG</span>
+        <img class="brand__mark" src="assets/img/logo.svg" alt="" width="40" height="40">
         <span class="brand__name">Oussama Ghorbel</span>
       </a>
       <nav class="nav__links" id="menu" aria-label="Navigation principale">
@@ -48,33 +62,48 @@
 
   <main id="main">
     <!-- HERO -->
-    <section class="hero">
-      <div class="hero__glow" aria-hidden="true"></div>
+    <section class="hero" id="hero">
+      <canvas class="hero__gl" id="gl" aria-hidden="true"></canvas>
+      <div class="hero__grain" aria-hidden="true"></div>
+      <div class="hero__bigword" aria-hidden="true"><span data-depth="0.25">GHORBEL</span></div>
       <div class="wrap hero__grid">
         <div class="hero__text">
-          <p class="kicker" data-i18n="hero.kicker">Ingénieur textile · Ingénieur en mathématiques · Entrepreneur</p>
-          <h1 class="hero__name">Oussama<br><span>Ghorbel</span></h1>
-          <p class="hero__lead" data-i18n="hero.lead">J'allie l'industrie, la technologie et l'esprit d'entreprise pour transformer des idées en projets concrets.</p>
-          <div class="hero__cta">
-            <a class="btn btn--primary" href="#portfolio" data-i18n="hero.cta.work">Voir mes travaux</a>
-            <a class="btn btn--ghost" href="#contact" data-i18n="hero.cta.contact">Me contacter</a>
+          <p class="kicker hero__in" data-i18n="hero.kicker">Ingénieur textile · Ingénieur en mathématiques · Entrepreneur</p>
+          <h1 class="hero__name" aria-label="Oussama Ghorbel">
+            <span class="line" data-split>Oussama</span>
+            <span class="line line--gold" data-split>Ghorbel</span>
+          </h1>
+          <p class="hero__lead hero__in" data-i18n="hero.lead">J'allie l'industrie, la technologie et l'esprit d'entreprise pour transformer des idées en projets concrets.</p>
+          <div class="hero__cta hero__in">
+            <a class="btn btn--primary magnetic" href="#portfolio"><span data-i18n="hero.cta.work">Voir mes travaux</span></a>
+            <a class="btn btn--ghost magnetic" href="#contact"><span data-i18n="hero.cta.contact">Me contacter</span></a>
           </div>
-          <ul class="hero__langs" aria-label="Langues">
+          <ul class="hero__langs hero__in" aria-label="Langues">
             <li lang="fr">Français</li>
             <li lang="en">English</li>
             <li lang="ar">العربية</li>
             <li lang="ru">Русский</li>
           </ul>
         </div>
-        <figure class="hero__photo">
-          <img src="assets/img/portrait.jpg" alt="Portrait d'Oussama Ghorbel" width="640" height="800">
-          <figcaption class="hero__badge">
-            <strong>4</strong>
-            <span data-i18n="hero.badge">domaines, une seule vision</span>
-          </figcaption>
-        </figure>
+        <div class="hero__stage">
+          <div class="hero__halo" data-depth="0.35" aria-hidden="true"></div>
+          <div class="hero__orbit" data-depth="0.5" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/><circle cx="50" cy="50" r="38" class="dash"/></svg>
+          </div>
+          <img class="hero__person" data-depth="0.8" src="assets/img/oussama-cutout.webp" alt="Portrait d'Oussama Ghorbel" width="760" height="1214" fetchpriority="high">
+          <span class="chip chip--business" data-depth="1.4" data-domain-label="business"></span>
+          <span class="chip chip--textile" data-depth="1.1" data-domain-label="textile"></span>
+          <span class="chip chip--it" data-depth="1.6" data-domain-label="it"></span>
+          <span class="chip chip--research" data-depth="1.2" data-domain-label="research"></span>
+        </div>
       </div>
+      <a class="hero__scroll" href="#about" aria-label="Défiler"><span></span></a>
     </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marquee"></div>
+    </div>
 
     <!-- STATS -->
     <section class="stats" aria-label="Chiffres clés">
@@ -245,8 +274,13 @@
     <figure><img alt=""><figcaption></figcaption></figure>
   </div>
 
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/content.js"></script>
-  <script src="assets/js/site.js"></script>
+  <script src="assets/vendor/gsap.min.js" defer></script>
+  <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="assets/vendor/lenis.min.js" defer></script>
+  <script src="assets/js/i18n.js" defer></script>
+  <script src="assets/js/content.js" defer></script>
+  <script src="assets/js/site.js" defer></script>
+  <script src="assets/js/gl.js" defer></script>
+  <script src="assets/js/motion.js" defer></script>
 </body>
 </html>
