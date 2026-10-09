@@ -79,7 +79,7 @@
   gsap.set(".hero__in", { y: 30, opacity: 0 });
   gsap.set(".hero__media", { scale: 1.18 });
   gsap.set(".hero__veil", { opacity: 0.4 });
-  gsap.set(".hero__frame", { opacity: 0, scale: 1.04 });
+  gsap.set(".hero__bar", { height: "50.5%" });
   gsap.set(".hero__spark", { opacity: 0 });
 
   // Logo : les traits se dessinent, puis les lettres se remplissent.
@@ -110,7 +110,7 @@
       .to(loader, { yPercent: -100, duration: 1, ease: "expo.inOut", onComplete: done }, "-=0.1")
       .to(".hero__media", { scale: 1, duration: 2.2, ease: "expo.out" }, "-=0.6")
       .to(".hero__veil", { opacity: 1, duration: 1.6, ease: "power2.out" }, "<")
-      .to(".hero__frame", { opacity: 1, scale: 1, duration: 1.6, ease: "expo.out" }, "<0.2")
+      .to(".hero__bar", { height: function () { return getComputedStyle(document.getElementById("hero")).getPropertyValue("--bar").trim() || "9vh"; }, duration: 1.8, ease: "expo.inOut", clearProps: "height" }, "<")
       .to(".hero__name .char > span", { yPercent: 0, duration: 1.2, stagger: 0.04, ease: "expo.out" }, "<0.1")
       .to(".hero__in", { y: 0, opacity: 1, duration: 1, stagger: 0.09, ease: "power3.out" }, "<0.35")
       .to(".hero__spark", { opacity: 1, duration: 2, ease: "power2.out" }, "<");
@@ -145,7 +145,25 @@
   var heroScroll = { trigger: "#hero", start: "top top", end: "bottom top", scrub: true };
   gsap.to(".hero__video", { yPercent: 18, scale: 1.08, ease: "none", scrollTrigger: heroScroll });
   gsap.to(".hero__content", { yPercent: -18, opacity: 0, ease: "none", scrollTrigger: heroScroll });
-  gsap.to(".hero__frame", { opacity: 0, ease: "none", scrollTrigger: heroScroll });
+
+  /* ---------- Rôles : la bande défile à l'horizontale pendant le scroll ---------- */
+
+  var rolesTrack = document.getElementById("rolesTrack");
+  if (rolesTrack) {
+    var rolesMM = gsap.matchMedia();
+    rolesMM.add("(min-width: 701px)", function () {
+      function distance() { return Math.max(0, rolesTrack.scrollWidth - window.innerWidth); }
+      gsap.to(rolesTrack, {
+        x: function () { return -distance(); }, ease: "none",
+        scrollTrigger: {
+          trigger: ".roles", start: "top top", end: function () { return "+=" + distance(); },
+          pin: ".roles__pin", scrub: 1, anticipatePin: 1, invalidateOnRefresh: true,
+          onUpdate: function (self) { setRoleProgress(self.progress); }
+        }
+      });
+    });
+  }
+
 
   /* ---------- Poses : le personnage monte dans son arche, en parallaxe ---------- */
 
@@ -170,6 +188,26 @@
     xPercent: -25, ease: "none",
     scrollTrigger: { trigger: ".interlude", start: "top bottom", end: "bottom top", scrub: true }
   });
+
+  function setRoleProgress(p) {
+    var cards = document.querySelectorAll("#rolesTrack .role");
+    if (!cards.length) return;
+    var idx = Math.min(cards.length - 1, Math.round(p * (cards.length - 1)));
+    cards.forEach(function (c, i) { c.classList.toggle("is-active", i === idx); });
+    var bar = document.getElementById("rolesBar");
+    if (bar) bar.style.transform = "scaleX(" + (0.16 + 0.84 * p) + ")";
+    var num = document.getElementById("rolesIndex");
+    if (num) num.textContent = (idx + 1 < 10 ? "0" : "") + (idx + 1);
+  }
+  var rolesViewport = document.querySelector(".roles__viewport");
+  if (rolesViewport) {
+    rolesViewport.addEventListener("scroll", function () {
+      var max = rolesViewport.scrollWidth - rolesViewport.clientWidth;
+      if (max > 0) setRoleProgress(rolesViewport.scrollLeft / max);
+    }, { passive: true });
+  }
+  document.addEventListener("site:render", function () { setRoleProgress(0); });
+  setRoleProgress(0);
 
   /* ---------- Bandeau défilant (vitesse liée au scroll) ---------- */
 
@@ -254,7 +292,7 @@
 
   // Éléments générés (projets, frise, compétences, galerie) : on les anime à chaque rendu.
   function animateDynamic() {
-    ScrollTrigger.batch(".project:not(.is-in), .tl:not(.is-in), .skill:not(.is-in), .training li:not(.is-in), .gallery button:not(.is-in)", {
+    ScrollTrigger.batch(".project:not(.is-in), .tl:not(.is-in), .skill:not(.is-in), .training li:not(.is-in), .gallery button:not(.is-in), .role:not(.is-in)", {
       start: "top 92%",
       onEnter: function (batch) {
         batch.forEach(function (n) { n.classList.add("is-in"); });
@@ -338,7 +376,7 @@
     document.addEventListener("pointerover", function (e) {
       var hot = e.target.closest("a, button, .project, .gallery button");
       root.classList.toggle("cursor-hover", !!hot);
-      root.classList.toggle("cursor-view", !!(hot && hot.matches(".gallery button")));
+      root.classList.toggle("cursor-view", !!(hot && hot.matches(".gallery button, .role")));
     });
     document.addEventListener("pointerleave", function () { root.classList.add("cursor-out"); });
     document.addEventListener("pointerenter", function () { root.classList.remove("cursor-out"); });

@@ -31,7 +31,7 @@
   transition: width .35s, height .35s, margin .35s, background .35s, border-color .35s, opacity .3s;
 }
 .cursor-hover .cursor__ring { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: rgba(230, 199, 124, .12); border-color: transparent; }
-.cursor-view .cursor__ring { width: 84px; height: 84px; margin: -42px 0 0 -42px; background: rgba(230, 199, 124, .9); mix-blend-mode: normal; }
+.cursor-view .cursor__ring { width: 96px; height: 96px; margin: -48px 0 0 -48px; background: rgba(14, 15, 20, .12); border: 1px solid var(--gold-2); backdrop-filter: blur(2px) saturate(1.2); -webkit-backdrop-filter: blur(2px) saturate(1.2); }
 .cursor-out .cursor span { opacity: 0; }
 
 /* ---------- Cartes : profondeur et reflet ---------- */

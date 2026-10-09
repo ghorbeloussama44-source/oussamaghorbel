@@ -147,6 +147,29 @@
     });
   }
 
+  function renderRoles() {
+    var box = document.getElementById("rolesTrack");
+    if (!box || !C.ROLES) return;
+    box.innerHTML = "";
+    var starring = I18N[state.lang]["roles.starring"];
+    C.ROLES.forEach(function (r, i) {
+      var num = (i + 1 < 10 ? "0" : "") + (i + 1);
+      var card = el("button", { type: "button", class: "role", "data-index": String(i) }, [
+        el("span", { class: "role__media" }, [el("img", { src: r.img, alt: t(r.title), loading: "lazy", width: "720", height: "960" })]),
+        el("span", { class: "role__num", text: num }),
+        el("span", { class: "role__body" }, [
+          el("span", { class: "role__starring", text: starring }),
+          el("span", { class: "role__title", text: t(r.title) }),
+          el("span", { class: "role__genre", text: t(r.genre) })
+        ])
+      ]);
+      card.addEventListener("click", function () { openLightbox(r.img, t(r.title) + " — " + t(r.genre)); });
+      box.appendChild(card);
+    });
+    var total = document.getElementById("rolesTotal");
+    if (total) total.textContent = (C.ROLES.length < 10 ? "0" : "") + C.ROLES.length;
+  }
+
   function render() {
     renderStatic();
     renderFilters();
@@ -156,6 +179,7 @@
     renderTraining();
     renderSkills();
     renderGallery();
+    renderRoles();
     document.dispatchEvent(new CustomEvent("site:render"));
   }
 
@@ -248,6 +272,18 @@
     document.querySelectorAll("main section[id]").forEach(function (s) { spyObs.observe(s); });
   } else {
     document.querySelectorAll(".reveal").forEach(function (n) { n.classList.add("is-visible"); });
+  }
+
+  /* ---------- Barre de progression de la page ---------- */
+
+  var bar = document.getElementById("pageProgress");
+  if (bar) {
+    var updateBar = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = "scaleX(" + (max > 0 ? window.scrollY / max : 0) + ")";
+    };
+    window.addEventListener("scroll", updateBar, { passive: true });
+    updateBar();
   }
 
   document.getElementById("year").textContent = new Date().getFullYear();
