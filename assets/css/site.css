@@ -297,22 +297,11 @@ html[lang="ar"] .stat span { letter-spacing: 0; font-size: .88rem; }
 .pose__img { position: relative; z-index: 1; width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(14, 15, 20, .25)); }
 
 /* ---------- À propos ---------- */
-.about { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(40px, 7vw, 110px); align-items: end; }
+.about { display: grid; grid-template-columns: 1fr; gap: clamp(40px, 7vw, 110px); align-items: end; }
+.about__text { max-width: 46em; }
 .about .pose { align-self: stretch; display: flex; align-items: flex-end; }
 .about .pose__img { filter: none; -webkit-mask-image: linear-gradient(to bottom, #000 85%, transparent); mask-image: linear-gradient(to bottom, #000 85%, transparent); }
 
-/* Vidéo dans l'arche : même cadrage que la vidéo de l'en-tête (cover, centrée) */
-.pose--video { display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; }
-.pose__frame { position: relative; z-index: 1; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 999px 999px 0 0; background: #0e0f14; }
-.pose__video { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; transform: scale(1.4); transform-origin: 50% 22%; }
-/* Texte réduit : on garde le titre, la citation et les domaines */
-.about__text > p[data-i18n="about.p1"], .about__text > p[data-i18n="about.p2"] { display: none; }
-.pose__veil { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, rgba(14, 15, 20, .55)); pointer-events: none; }
-.pose__controls { position: relative; z-index: 2; width: 100%; display: flex; gap: 8px; justify-content: center; }
-.pose__controls .vbtn { padding: 10px 14px; }
-.pose--video .vbtn svg { width: 14px; height: 14px; }
-.pose--video .vbtn svg path { fill: currentColor; }
-.pose--video .vbtn svg path.i-wave { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 .about__text { padding-bottom: 40px; }
 .about__text p { color: var(--muted); }
 .about blockquote {
@@ -514,15 +503,20 @@ html[lang="ar"] .contact__list li > span:first-child { letter-spacing: 0; font-s
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .brand__name { display: none; }
-  .hero__veil { background: linear-gradient(0deg, rgba(14, 15, 20, .95) 0%, rgba(14, 15, 20, .7) 45%, rgba(14, 15, 20, .15) 80%); }
-  html[dir="rtl"] .hero__veil { background: linear-gradient(0deg, rgba(14, 15, 20, .95) 0%, rgba(14, 15, 20, .7) 45%, rgba(14, 15, 20, .15) 80%); }
-  .hero { --bar: 76px; }
-  .hero__content { padding: 120px 0 calc(var(--bar) + 124px); }
+  .hero__veil { background: linear-gradient(to bottom, transparent calc(var(--cut) - 120px), var(--ink) var(--cut)); }
+  html[dir="rtl"] .hero__veil { background: linear-gradient(to bottom, transparent calc(var(--cut) - 120px), var(--ink) var(--cut)); }
+  .hero { --bar: 76px; --cut: calc(var(--bar) + 100vw); background: var(--ink); }
+  /* Vidéo carrée pleine largeur sous l'en-tête : la personne reste dans le cadre sur tous les plans */
+  .hero__media { inset: var(--bar) 0 auto 0; aspect-ratio: 1 / 1; }
+  .hero__content { padding: calc(var(--cut) + 22px) 0 calc(var(--bar) + 28px); }
+  .hero .kicker { font-size: .58rem; letter-spacing: .16em; margin-bottom: 10px; }
+  .hero__cta { flex-wrap: nowrap; gap: 10px; margin-top: 20px; }
+  .hero__cta .btn { flex: 1; justify-content: center; padding-inline: 10px; letter-spacing: .14em; }
   .hero__timeline { width: auto; inset-inline-end: auto; gap: 10px; }
   .hero__progress { width: 90px; flex: none; }
   .hero__controls .vbtn span { display: none; }
   .hero__controls .vbtn { padding: 10px 12px; }
-  .hero__watch { inset-inline-end: 16px; inset-inline-start: 16px; bottom: calc(var(--bar) + 28px); justify-content: flex-end; }
+  .hero__watch { inset-inline-end: 16px; inset-inline-start: 16px; top: calc(var(--cut) - 72px - 16px); bottom: auto; justify-content: flex-end; }
   .hero__watch-ring { width: 72px; height: 72px; }
   .hero__watch-label { font-size: 1.1rem; }
   .hero__scroll { display: none; }
