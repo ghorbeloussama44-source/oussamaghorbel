@@ -45,7 +45,10 @@ et le modèle `birefnet-portrait`, installés dans un venv du dossier temporaire
    puis désaturer ce qui reste de la couleur du fond dans les zones de bord (cheveux).
 4. Rogner au cadre utile, exporter en WebP qualité 90, et mettre à jour `width`/`height` dans `index.html`.
 
-La photo originale est gardée dans `assets/images/`.
+Le personnage actuel vient d'une image de la vidéo (à 1,4 s, costume marron, bras croisés),
+choisie comme la plus nette du plan, détourée puis rognée juste au-dessus du dossier de la chaise,
+agrandie de 1,25× avec un léger accentuage. Ne pas réutiliser le portrait « chaise en bois » envoyé
+avec la vidéo : Oussama a demandé de le retirer du site.
 
 ## Vidéo
 
