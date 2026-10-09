@@ -8,19 +8,19 @@ En ligne : https://ghorbeloussama44-source.github.io/oussamaghorbel/
 ## Structure
 
 ```
-index.html            page unique (sections : showreel, à propos, portfolio, parcours, compétences, galerie, contact)
+index.html            page unique (en-tête vidéo, à propos, portfolio, interlude, parcours, compétences, galerie, contact)
 assets/css/site.css   mise en page et thème
 assets/css/motion.css styles des animations (préchargeur, curseur, cartes)
 assets/js/i18n.js     textes de l'interface dans les 4 langues
 assets/js/content.js  contenu : projets, expériences, formations, compétences, galerie
 assets/js/site.js     rendu, changement de langue, filtres, galerie
-assets/js/gl.js       fond WebGL du hero (étoffe de soie animée)
-assets/js/sparkles.js éclats dorés en parallaxe dans le hero
-assets/js/showreel.js lecture de la vidéo showreel
+assets/js/gl.js       fond WebGL de la section contact (étoffe de soie animée)
+assets/js/sparkles.js éclats dorés en parallaxe sur l'en-tête
+assets/js/video.js    vidéo plein écran de l'en-tête
 assets/video/         showreel (ordinateur, mobile) et image d'aperçu
 assets/js/motion.js   motion design : intro, parallaxe, défilement fluide, apparitions
 assets/vendor/        GSAP, ScrollTrigger et Lenis (copiés localement, sans CDN)
-assets/img/           images web, logo, personnage détouré
+assets/img/           images web, logo, poses détourées
 .claude/skills/       guide de design et de motion pour Claude Code
 assets/images/        photos originales
 assets/files/         CV en PDF

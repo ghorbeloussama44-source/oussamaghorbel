@@ -16,13 +16,13 @@ bibliothèques sont copiées dans `assets/vendor/` (GSAP, ScrollTrigger, Lenis).
 | `assets/js/i18n.js` | Textes de l'interface en `fr`, `en`, `ar`, `ru`. Toute clé ajoutée doit exister dans les 4 langues. |
 | `assets/js/content.js` | Contenu : `PROJECTS`, `EXPERIENCE`, `EDUCATION`, `TRAINING`, `SKILLS`, `GALLERY`. |
 | `assets/js/site.js` | Rendu, langue, filtres. Émet `site:render` et `site:filter` sur `document`. |
-| `assets/js/gl.js` | Shader WebGL du hero (étoffe de soie, trame de tissage, reflet doré suivant la souris). |
-| `assets/js/sparkles.js` | Éclats dorés en parallaxe, sur deux canvas (derrière et devant le personnage), plus une traînée d'éclats sous la souris. |
-| `assets/js/showreel.js` | Vidéo showreel : chargement différé (version mobile sous 700 px), lecture quand visible, boutons pause et son. |
+| `assets/js/gl.js` | Shader WebGL (étoffe de soie animée), en fond de la section Contact. |
+| `assets/js/sparkles.js` | Éclats dorés en parallaxe sur l'en-tête vidéo (calque arrière optionnel), traînée d'éclats sous la souris. |
+| `assets/js/video.js` | Vidéo plein écran de l'en-tête : version mobile sous 700 px, lecture auto sans son, boutons pause et son. |
 | `assets/video/` | `showreel.mp4` (720p), `showreel-mobile.mp4` (480p), `showreel-poster.jpg`. |
 | `assets/js/motion.js` | Préchargeur, intro, Lenis, parallaxe, apparitions au scroll, marquee, curseur, boutons magnétiques. |
 | `assets/css/site.css` | Mise en page et thème. `assets/css/motion.css` : styles propres aux animations. |
-| `assets/img/` | Images web. `logo.svg` (monogramme OG), `favicon.svg`, `oussama-cutout.webp` (personnage détouré), `og-image.jpg` (partage). |
+| `assets/img/` | Images web. `logo.svg` / `logo-dark.svg` (monogramme OG serif), `favicon.svg`, `pose-stand|navy|mic.webp` (poses détourées), `og-image.jpg` (partage). |
 
 ## Ajouter un projet
 
@@ -33,34 +33,40 @@ bibliothèques sont copiées dans `assets/vendor/` (GSAP, ScrollTrigger, Lenis).
 3. Ne rien inventer : n'écrire que ce qu'Oussama a fourni. Demander en cas de doute
    (dates, intitulés, chiffres).
 
-## Détourer une nouvelle photo
+## Poses détourées
 
-Le personnage du hero (`assets/img/oussama-cutout.webp`) a été détouré avec `rembg`
-et le modèle `birefnet-portrait`, installés dans un venv du dossier temporaire
-(pas dans le dépôt) :
+Trois poses tirées de la vidéo ponctuent la page, chacune dans une arche dorée en parallaxe
+(`<figure class="pose" data-pose>`) : `pose-stand` (À propos, costume marron souriant),
+`pose-navy` (interlude, costume bleu marine), `pose-mic` (Contact, au micro).
 
-1. `python3 -m venv <tmp>/venv && <tmp>/venv/bin/pip install "rembg[cpu]"`
-2. Générer le masque : `remove(image, session=new_session("birefnet-portrait"), only_mask=True)`.
-3. Recalculer les couleurs des bords avec `pymatting.estimate_foreground_ml(image, alpha)`,
-   puis désaturer ce qui reste de la couleur du fond dans les zones de bord (cheveux).
-4. Rogner au cadre utile, exporter en WebP qualité 90, et mettre à jour `width`/`height` dans `index.html`.
+Méthode : choisir l'image la plus nette du plan (variance du laplacien sur le visage),
+détourer avec `rembg` + `birefnet-portrait` (venv dans le dossier temporaire, pas dans le dépôt),
+recalculer les couleurs des bords avec `pymatting.estimate_foreground_ml`, rogner, agrandir de 1,25×
+avec un léger accentuage, puis mettre à zéro l'alpha résiduel (< 24) pour éviter un voile autour.
+Sur fond clair, ne pas mettre d'ombre portée : le masque de fondu la coupe net en haut.
+Ne pas réutiliser le portrait « chaise en bois » envoyé avec la vidéo : Oussama a demandé de le retirer.
 
-Le personnage actuel vient d'une image de la vidéo (à 1,4 s, costume marron, bras croisés),
-choisie comme la plus nette du plan, détourée puis rognée juste au-dessus du dossier de la chaise,
-agrandie de 1,25× avec un léger accentuage. Ne pas réutiliser le portrait « chaise en bois » envoyé
-avec la vidéo : Oussama a demandé de le retirer du site.
+## Logo
+
+Monogramme « OG » : O droit (Cormorant Garamond, graisse 400) en or, G italique (graisse 500) en ivoire,
+dans un double anneau fin avec un petit losange. Les lettres sont vectorisées avec fontTools
+(chemins SVG, aucune police nécessaire à l'affichage). `logo-dark.svg` sert sur fond clair.
+Le préchargeur dessine ces mêmes chemins au trait, puis les remplit.
 
 ## Vidéo
 
 - Encodage : H.264 `-crf 27 -preset slow -movflags +faststart`, AAC 96k ; version mobile 854 px de large, CRF 29, AAC 64k.
 - Retirer tout plan montrant une marque tierce (le montage d'origine contenait des plans « Lemoon », coupés).
-- Le Chromium de test n'a pas H.264 : pour tester la lecture, encoder une copie WebM temporaire, sans la committer.
+- Le Chromium de test n'a pas H.264 : pour tester la lecture, encoder une copie WebM temporaire et la servir à la place des .mp4 via `page.route`, sans la committer.
 
 ## Identité visuelle
 
-- Couleurs : encre `#11131f`, or `#c8a24a` / `#e6c77c`, papier `#f7f5f0`.
-  Domaines : business or, textile `#c0643f`, it `#3f7fc0`, research `#6a58c2`.
-- Polices : Manrope (latin et cyrillique), Noto Kufi Arabic pour l'arabe.
+- Couleurs : encre `#0e0f14`, ivoire `#f6f2ea`, champagne `#c9a96e` / `#e3cc98`, or foncé `#8c6d32`.
+  Domaines : business `#b08d4f`, textile `#a4704f`, it `#5d7085`, research `#7a6a86`.
+- Polices : Cormorant Garamond pour les titres (romain + italique, latin et cyrillique), Manrope pour le texte,
+  Amiri pour les titres arabes et Noto Kufi Arabic pour le texte arabe.
+- Ton : éditorial et sobre. Filets de 1 px, angles à 4 px, petites capitales espacées pour les libellés,
+  pas de couleurs vives : les domaines sont des nuances autour du champagne.
 - Le nom « Oussama Ghorbel » reste en lettres latines dans toutes les langues.
 - L'arabe passe la page en `dir="rtl"` : utiliser des propriétés logiques
   (`inset-inline-start`, `margin-inline-start`…) plutôt que left/right.
