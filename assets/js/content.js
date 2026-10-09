@@ -19,6 +19,28 @@ window.SITE_CONTENT = {
     research: { fr: "Recherche & science", en: "Research & science", ar: "البحث والعلوم", ru: "Наука и исследования" }
   },
 
+  // Les rôles : portraits tirés de la vidéo, une tenue par rôle.
+  ROLES: [
+    { img: "assets/img/role-leader.webp",
+      title: { fr: "Le Dirigeant", en: "The Leader", ar: "القائد", ru: "Руководитель" },
+      genre: { fr: "Management · Industrie", en: "Management · Industry", ar: "الإدارة · الصناعة", ru: "Управление · Производство" } },
+    { img: "assets/img/role-entrepreneur.webp",
+      title: { fr: "L'Entrepreneur", en: "The Entrepreneur", ar: "رائد الأعمال", ru: "Предприниматель" },
+      genre: { fr: "Commerce · Création d'entreprise", en: "Retail · Business building", ar: "التجارة · إنشاء المؤسسات", ru: "Торговля · Создание бизнеса" } },
+    { img: "assets/img/role-speaker.webp",
+      title: { fr: "L'Orateur", en: "The Speaker", ar: "الخطيب", ru: "Оратор" },
+      genre: { fr: "Conférences · Communication", en: "Talks · Communication", ar: "المحاضرات · التواصل", ru: "Выступления · Коммуникация" } },
+    { img: "assets/img/role-textile.webp",
+      title: { fr: "L'Artisan du textile", en: "The Textile Craftsman", ar: "حِرفيّ النسيج", ru: "Мастер текстиля" },
+      genre: { fr: "Confection · Qualité", en: "Garment making · Quality", ar: "الخياطة · الجودة", ru: "Пошив · Качество" } },
+    { img: "assets/img/role-engineer.webp",
+      title: { fr: "L'Ingénieur", en: "The Engineer", ar: "المهندس", ru: "Инженер" },
+      genre: { fr: "Logiciel · Recherche", en: "Software · Research", ar: "البرمجيات · البحث", ru: "ПО · Исследования" } },
+    { img: "assets/img/role-creator.webp",
+      title: { fr: "Le Créateur", en: "The Creator", ar: "المبدع", ru: "Творец" },
+      genre: { fr: "Image · Innovation", en: "Image · Innovation", ar: "الصورة · الابتكار", ru: "Образ · Инновации" } }
+  ],
+
   PROJECTS: [
     {
       year: "2014",

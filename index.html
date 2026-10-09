@@ -31,6 +31,7 @@
   </div>
   <div class="cursor" aria-hidden="true"><span class="cursor__ring"></span><span class="cursor__dot"></span></div>
 
+  <div class="progress" aria-hidden="true"><i id="pageProgress"></i></div>
   <a class="skip" href="#main">Aller au contenu</a>
 
   <header class="nav" id="top">
@@ -71,7 +72,8 @@
       </div>
       <div class="hero__veil" aria-hidden="true"></div>
       <div class="hero__grain" aria-hidden="true"></div>
-      <div class="hero__frame" aria-hidden="true"></div>
+      <div class="hero__bar hero__bar--top" aria-hidden="true"></div>
+      <div class="hero__bar hero__bar--bottom" aria-hidden="true"></div>
       <canvas class="hero__spark" id="sparkFront" aria-hidden="true"></canvas>
       <div class="wrap hero__content">
         <p class="kicker hero__in" data-i18n="hero.kicker">Ingénieur textile · Ingénieur en mathématiques · Entrepreneur</p>
@@ -79,17 +81,22 @@
           <span class="line" data-split>Oussama</span>
           <span class="line line--gold" data-split>Ghorbel</span>
         </h1>
-        <p class="hero__lead hero__in" data-i18n="hero.lead">J'allie l'industrie, la technologie et l'esprit d'entreprise pour transformer des idées en projets concrets.</p>
         <div class="hero__cta hero__in">
           <a class="btn btn--primary magnetic" href="#portfolio"><span data-i18n="hero.cta.work">Voir mes travaux</span></a>
           <a class="btn btn--ghost magnetic" href="#contact"><span data-i18n="hero.cta.contact">Me contacter</span></a>
         </div>
-        <ul class="hero__langs hero__in" aria-label="Langues">
-          <li lang="fr">Français</li>
-          <li lang="en">English</li>
-          <li lang="ar">العربية</li>
-          <li lang="ru">Русский</li>
-        </ul>
+      </div>
+      <button type="button" class="hero__watch hero__in magnetic" id="heroWatch">
+        <span class="hero__watch-ring" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="56"/><circle class="dash" cx="60" cy="60" r="48"/></svg>
+          <span class="hero__watch-icon"><svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></span>
+        </span>
+        <span class="hero__watch-label" data-i18n="hero.watch">Regarder avec le son</span>
+      </button>
+      <div class="hero__timeline hero__in" aria-hidden="true">
+        <span class="hero__time" id="heroTime">00:00</span>
+        <span class="hero__progress"><i id="heroProgress"></i></span>
+        <span class="hero__time" id="heroDur">00:22</span>
       </div>
       <div class="hero__controls hero__in">
         <button type="button" class="vbtn" id="heroPlay" aria-pressed="false">
@@ -101,7 +108,6 @@
           <span data-i18n="video.sound">Activer le son</span>
         </button>
       </div>
-      <a class="hero__scroll" href="#about" aria-label="Défiler"><span></span></a>
     </section>
 
     <!-- MARQUEE -->
@@ -116,6 +122,26 @@
         <div class="stat"><strong>4</strong><span data-i18n="stats.domains">domaines d'expertise</span></div>
         <div class="stat"><strong>2</strong><span data-i18n="stats.degrees">diplômes d'ingénierie</span></div>
         <div class="stat"><strong>2008</strong><span data-i18n="stats.since">premiers pas dans l'industrie</span></div>
+      </div>
+    </section>
+
+    <!-- ROLES -->
+    <section class="roles" id="roles" aria-labelledby="rolesTitle">
+      <div class="roles__pin">
+        <div class="wrap roles__head">
+          <div>
+            <p class="kicker" data-i18n="roles.kicker">Filmographie</p>
+            <h2 id="rolesTitle" data-i18n="roles.title">Un homme, plusieurs rôles.</h2>
+          </div>
+          <p class="roles__count" aria-hidden="true"><span id="rolesIndex">01</span> / <span id="rolesTotal">06</span></p>
+        </div>
+        <div class="roles__viewport">
+          <div class="roles__track" id="rolesTrack"></div>
+        </div>
+        <div class="wrap roles__foot">
+          <span class="roles__hint" data-i18n="roles.hint">Faites défiler</span>
+          <span class="roles__bar" aria-hidden="true"><i id="rolesBar"></i></span>
+        </div>
       </div>
     </section>
 

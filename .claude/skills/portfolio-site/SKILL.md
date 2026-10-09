@@ -14,11 +14,11 @@ bibliothèques sont copiées dans `assets/vendor/` (GSAP, ScrollTrigger, Lenis).
 |---|---|
 | `index.html` | Page unique. Textes fixes marqués `data-i18n="clé"`. |
 | `assets/js/i18n.js` | Textes de l'interface en `fr`, `en`, `ar`, `ru`. Toute clé ajoutée doit exister dans les 4 langues. |
-| `assets/js/content.js` | Contenu : `PROJECTS`, `EXPERIENCE`, `EDUCATION`, `TRAINING`, `SKILLS`, `GALLERY`. |
+| `assets/js/content.js` | Contenu : `ROLES`, `PROJECTS`, `EXPERIENCE`, `EDUCATION`, `TRAINING`, `SKILLS`, `GALLERY`. |
 | `assets/js/site.js` | Rendu, langue, filtres. Émet `site:render` et `site:filter` sur `document`. |
 | `assets/js/gl.js` | Shader WebGL (étoffe de soie animée), en fond de la section Contact. |
 | `assets/js/sparkles.js` | Éclats dorés en parallaxe sur l'en-tête vidéo (calque arrière optionnel), traînée d'éclats sous la souris. |
-| `assets/js/video.js` | Vidéo plein écran de l'en-tête : version mobile sous 700 px, lecture auto sans son, boutons pause et son. |
+| `assets/js/video.js` | Vidéo plein écran de l'en-tête (format cinéma) : version mobile sous 700 px, lecture auto sans son, minutage et barre de lecture cliquable, bouton « Regarder avec le son » (repart du début avec le son), pause et son. |
 | `assets/video/` | `showreel.mp4` (720p), `showreel-mobile.mp4` (480p), `showreel-poster.jpg`. |
 | `assets/js/motion.js` | Préchargeur, intro, Lenis, parallaxe, apparitions au scroll, marquee, curseur, boutons magnétiques. |
 | `assets/css/site.css` | Mise en page et thème. `assets/css/motion.css` : styles propres aux animations. |
@@ -45,6 +45,17 @@ recalculer les couleurs des bords avec `pymatting.estimate_foreground_ml`, rogne
 avec un léger accentuage, puis mettre à zéro l'alpha résiduel (< 24) pour éviter un voile autour.
 Sur fond clair, ne pas mettre d'ombre portée : le masque de fondu la coupe net en haut.
 Ne pas réutiliser le portrait « chaise en bois » envoyé avec la vidéo : Oussama a demandé de le retirer.
+
+## Rôles (filmographie)
+
+Section `#roles` juste après les chiffres : une bande de portraits 3:4 tirés de la vidéo, une tenue
+par rôle (`ROLES` dans `content.js`, images `assets/img/role-*.webp`, 720×960). Sur ordinateur, la
+section est épinglée et la bande défile à l'horizontale pendant le scroll (compteur 01/06 et barre).
+Sur mobile et en mouvement réduit, c'est un défilement horizontal natif avec aimantation.
+Portraits : image la plus nette du plan, recadrage 540×720 centré sur la personne, agrandi à 720×960,
+léger accentuage, contraste +8 %, saturation −8 %, vignettage doux. Affichés en noir et blanc,
+ils passent en couleur au survol ou quand ils sont au centre.
+Ne pas utiliser les plans au sweat jaune (liés à la marque « Lemoon »).
 
 ## Logo
 
