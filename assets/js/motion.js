@@ -169,24 +169,6 @@
     });
   }
 
-  /* ---------- Portrait « À propos » : révélation et parallaxe ---------- */
-
-  if (document.querySelector(".about__portrait")) {
-    gsap.set(".about__img", { scale: 1.12 });
-    gsap.fromTo(".about__mask", { clipPath: "inset(100% 0% 0% 0%)" }, {
-      clipPath: "inset(0% 0% 0% 0%)", duration: 1.6, ease: "expo.inOut",
-      scrollTrigger: { trigger: ".about__portrait", start: "top 80%" }
-    });
-    gsap.from(".about__img", {
-      scale: 1.45, duration: 2, ease: "expo.out",
-      scrollTrigger: { trigger: ".about__portrait", start: "top 80%" }
-    });
-    var portraitScroll = { trigger: ".about__portrait", start: "top bottom", end: "bottom top", scrub: true };
-    gsap.fromTo(".about__img", { yPercent: -7 }, { yPercent: 7, ease: "none", scrollTrigger: portraitScroll });
-    gsap.fromTo(".about__frame", { y: -40 }, { y: 50, ease: "none", scrollTrigger: portraitScroll });
-    gsap.fromTo(".about__badge", { y: 90 }, { y: -90, ease: "none", scrollTrigger: portraitScroll });
-  }
-
   /* ---------- Bandeau défilant (vitesse liée au scroll) ---------- */
 
   var marqueeTween = null;
