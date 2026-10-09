@@ -148,6 +148,45 @@
   gsap.to(".hero__text", { yPercent: 30, opacity: 0.1, ease: "none", scrollTrigger: heroScroll });
   gsap.to(".hero__bigword", { xPercent: -18, ease: "none", scrollTrigger: heroScroll });
 
+  /* ---------- Showreel : la vidéo s'ouvre en plein écran au scroll ---------- */
+
+  if (document.getElementById("showreel")) {
+    var mm = gsap.matchMedia();
+    mm.add({ small: "(max-width: 700px)", large: "(min-width: 701px)" }, function (ctx) {
+      var small = ctx.conditions.small;
+      var start = small ? "inset(12% 10% 12% 10% round 20px)" : "inset(17% 23% 17% 23% round 32px)";
+      gsap.set(".showreel__caption, .showreel__controls", { opacity: 0, y: 30 });
+      var tl = gsap.timeline({
+        scrollTrigger: { trigger: ".showreel", start: "top top", end: "+=140%", pin: ".showreel__pin", scrub: 1, anticipatePin: 1 }
+      });
+      tl.fromTo(".showreel__frame", { clipPath: start }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
+        .fromTo(".showreel__video", { scale: 1.3 }, { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
+        .fromTo(".showreel__word--a", { xPercent: 0 }, { xPercent: -130, ease: "power2.in", duration: 0.8 }, 0)
+        .fromTo(".showreel__word--b", { xPercent: 0 }, { xPercent: 130, ease: "power2.in", duration: 0.8 }, 0)
+        .to(".showreel__words", { opacity: 0, duration: 0.3 }, 0.55)
+        .to(".showreel__caption, .showreel__controls", { opacity: 1, y: 0, stagger: 0.08, duration: 0.3 }, 0.75);
+      return function () { gsap.set(".showreel__caption, .showreel__controls", { clearProps: "all" }); };
+    });
+  }
+
+  /* ---------- Portrait « À propos » : révélation et parallaxe ---------- */
+
+  if (document.querySelector(".about__portrait")) {
+    gsap.set(".about__img", { scale: 1.12 });
+    gsap.fromTo(".about__mask", { clipPath: "inset(100% 0% 0% 0%)" }, {
+      clipPath: "inset(0% 0% 0% 0%)", duration: 1.6, ease: "expo.inOut",
+      scrollTrigger: { trigger: ".about__portrait", start: "top 80%" }
+    });
+    gsap.from(".about__img", {
+      scale: 1.45, duration: 2, ease: "expo.out",
+      scrollTrigger: { trigger: ".about__portrait", start: "top 80%" }
+    });
+    var portraitScroll = { trigger: ".about__portrait", start: "top bottom", end: "bottom top", scrub: true };
+    gsap.fromTo(".about__img", { yPercent: -7 }, { yPercent: 7, ease: "none", scrollTrigger: portraitScroll });
+    gsap.fromTo(".about__frame", { y: -40 }, { y: 50, ease: "none", scrollTrigger: portraitScroll });
+    gsap.fromTo(".about__badge", { y: 90 }, { y: -90, ease: "none", scrollTrigger: portraitScroll });
+  }
+
   /* ---------- Bandeau défilant (vitesse liée au scroll) ---------- */
 
   var marqueeTween = null;

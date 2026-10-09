@@ -120,9 +120,54 @@
       </div>
     </section>
 
+    <!-- SHOWREEL -->
+    <section class="showreel" id="showreel" aria-labelledby="showreelTitle">
+      <div class="showreel__pin">
+        <div class="showreel__words" aria-hidden="true">
+          <span class="showreel__word showreel__word--a">Show</span>
+          <span class="showreel__word showreel__word--b">reel</span>
+        </div>
+        <div class="showreel__frame">
+          <video class="showreel__video" id="showreelVideo" muted loop playsinline preload="none"
+                 poster="assets/video/showreel-poster.jpg"
+                 data-src="assets/video/showreel.mp4" data-src-mobile="assets/video/showreel-mobile.mp4"
+                 aria-label="Showreel vidéo d'Oussama Ghorbel"></video>
+          <div class="showreel__shade" aria-hidden="true"></div>
+        </div>
+        <div class="showreel__caption">
+          <p class="kicker" data-i18n="showreel.kicker">En mouvement</p>
+          <h2 id="showreelTitle" data-i18n="showreel.title">Rencontrer, convaincre, construire.</h2>
+        </div>
+        <div class="showreel__controls">
+          <button type="button" class="showreel__btn magnetic" id="showreelPlay" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-play" d="M8 5l11 7-11 7z"/><path class="i-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+            <span data-i18n="showreel.pause">Pause</span>
+          </button>
+          <button type="button" class="showreel__btn magnetic" id="showreelSound" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="i-wave" d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12"/><path class="i-mute" d="M16 9l5 6M21 9l-5 6"/></svg>
+            <span data-i18n="showreel.sound">Activer le son</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- ABOUT -->
     <section class="section" id="about">
       <div class="wrap about">
+        <figure class="about__portrait">
+          <div class="about__frame" aria-hidden="true"></div>
+          <div class="about__mask">
+            <picture>
+              <source srcset="assets/img/oussama-portrait.webp" type="image/webp">
+              <img class="about__img" src="assets/img/oussama-portrait.jpg" alt="Oussama Ghorbel" width="853" height="1280" loading="lazy">
+            </picture>
+          </div>
+          <div class="about__badge" aria-hidden="true"><svg viewBox="0 0 200 200">
+            <defs><path id="badgeCircle" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs>
+            <text><textPath href="#badgeCircle" textLength="486" lengthAdjust="spacing">OUSSAMA GHORBEL · ENGINEER · ENTREPRENEUR ·</textPath></text>
+            <image href="assets/img/logo.svg" x="70" y="70" width="60" height="60"/>
+          </svg></div>
+        </figure>
         <div class="about__text reveal">
           <p class="kicker" data-i18n="about.kicker">À propos</p>
           <h2 data-i18n="about.title">Un profil hybride, au croisement de plusieurs mondes</h2>
@@ -287,6 +332,7 @@
   <script src="assets/js/site.js" defer></script>
   <script src="assets/js/gl.js" defer></script>
   <script src="assets/js/sparkles.js" defer></script>
+  <script src="assets/js/showreel.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
 </body>
 </html>
