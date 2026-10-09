@@ -18,6 +18,8 @@ bibliothèques sont copiées dans `assets/vendor/` (GSAP, ScrollTrigger, Lenis).
 | `assets/js/site.js` | Rendu, langue, filtres. Émet `site:render` et `site:filter` sur `document`. |
 | `assets/js/gl.js` | Shader WebGL du hero (étoffe de soie, trame de tissage, reflet doré suivant la souris). |
 | `assets/js/sparkles.js` | Éclats dorés en parallaxe, sur deux canvas (derrière et devant le personnage), plus une traînée d'éclats sous la souris. |
+| `assets/js/showreel.js` | Vidéo showreel : chargement différé (version mobile sous 700 px), lecture quand visible, boutons pause et son. |
+| `assets/video/` | `showreel.mp4` (720p), `showreel-mobile.mp4` (480p), `showreel-poster.jpg`. |
 | `assets/js/motion.js` | Préchargeur, intro, Lenis, parallaxe, apparitions au scroll, marquee, curseur, boutons magnétiques. |
 | `assets/css/site.css` | Mise en page et thème. `assets/css/motion.css` : styles propres aux animations. |
 | `assets/img/` | Images web. `logo.svg` (monogramme OG), `favicon.svg`, `oussama-cutout.webp` (personnage détouré), `og-image.jpg` (partage). |
@@ -44,6 +46,12 @@ et le modèle `birefnet-portrait`, installés dans un venv du dossier temporaire
 4. Rogner au cadre utile, exporter en WebP qualité 90, et mettre à jour `width`/`height` dans `index.html`.
 
 La photo originale est gardée dans `assets/images/`.
+
+## Vidéo
+
+- Encodage : H.264 `-crf 27 -preset slow -movflags +faststart`, AAC 96k ; version mobile 854 px de large, CRF 29, AAC 64k.
+- Retirer tout plan montrant une marque tierce (le montage d'origine contenait des plans « Lemoon », coupés).
+- Le Chromium de test n'a pas H.264 : pour tester la lecture, encoder une copie WebM temporaire, sans la committer.
 
 ## Identité visuelle
 
