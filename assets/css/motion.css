@@ -9,14 +9,11 @@
   background: var(--ink); color: var(--on-dark);
 }
 .loader__inner { display: flex; flex-direction: column; align-items: center; gap: 22px; }
-.loader__logo { width: 96px; height: 96px; overflow: visible; }
-.loader__logo .draw {
-  fill: none; stroke: var(--gold-2); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 1; stroke-dashoffset: 1;
-}
-.loader__logo .draw--g { stroke: var(--on-dark); stroke-width: 6.5; }
-.loader__logo .draw--thread { stroke-width: 1.5; }
-.loader__count { font-size: .8rem; font-weight: 700; letter-spacing: .3em; color: var(--on-dark-muted); font-variant-numeric: tabular-nums; }
+.loader__logo { width: 120px; height: 120px; overflow: visible; }
+.loader__logo .draw { fill: none; stroke: var(--gold); stroke-width: .5; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.loader__logo .draw--o { fill: var(--gold); fill-opacity: 0; }
+.loader__logo .draw--g { fill: var(--on-dark); fill-opacity: 0; stroke: var(--on-dark); }
+.loader__count { font-family: var(--serif); font-style: italic; font-size: 1.1rem; letter-spacing: .1em; color: var(--on-dark-muted); font-variant-numeric: tabular-nums; }
 .no-motion .loader { display: none; }
 
 /* GSAP prend le relais des apparitions CSS. */
@@ -38,9 +35,9 @@
 .cursor-out .cursor span { opacity: 0; }
 
 /* ---------- Cartes : profondeur et reflet ---------- */
-.has-motion .projects, .has-motion .domains { perspective: 1200px; }
-.has-motion .project, .has-motion .domain { transform-style: preserve-3d; will-change: transform; }
-.has-motion .project:hover, .has-motion .domain:hover { transform: none; }
+.has-motion .projects { perspective: 1400px; }
+.has-motion .project { transform-style: preserve-3d; will-change: transform; }
+
 .project::after, .domain::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
   background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(230, 199, 124, .16), transparent 45%);
@@ -69,5 +66,5 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__grain, .hero__orbit svg, .hero__scroll span, .hero__sheen { animation: none; }
+  .hero__grain, .hero__scroll span { animation: none; }
 }

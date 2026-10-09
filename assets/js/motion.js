@@ -73,30 +73,31 @@
 
   var counter = { v: 0 };
   var countEl = document.getElementById("loaderCount");
-  var person = document.querySelector(".hero__person");
+  var heroVideo = document.getElementById("heroVideo");
 
   gsap.set(".hero__name .char > span", { yPercent: 115 });
   gsap.set(".hero__in", { y: 30, opacity: 0 });
-  gsap.set(".hero__figure", { y: 120, opacity: 0, scale: 0.94, transformOrigin: "50% 100%" });
+  gsap.set(".hero__media", { scale: 1.18 });
+  gsap.set(".hero__veil", { opacity: 0.4 });
+  gsap.set(".hero__frame", { opacity: 0, scale: 1.04 });
   gsap.set(".hero__spark", { opacity: 0 });
-  gsap.set(".hero__halo, .hero__orbit", { scale: 0.6, opacity: 0 });
-  gsap.set(".chip", { scale: 0, opacity: 0 });
-  gsap.set(".hero__bigword span", { opacity: 0, yPercent: 30 });
 
+  // Logo : les traits se dessinent, puis les lettres se remplissent.
   var loadTl = gsap.timeline();
   loadTl
-    .to(".loader__logo .draw", { strokeDashoffset: 0, duration: 1.1, stagger: 0.18, ease: "power2.inOut" }, 0)
+    .to(".loader__logo .draw", { strokeDashoffset: 0, duration: 1.3, stagger: 0.2, ease: "power2.inOut" }, 0)
+    .to(".loader__logo .draw--o, .loader__logo .draw--g", { fillOpacity: 1, duration: 0.6, ease: "power1.out" }, 1.1)
     .to(counter, {
-      v: 100, duration: 1.4, ease: "power2.inOut",
+      v: 100, duration: 1.6, ease: "power2.inOut",
       onUpdate: function () { if (countEl) countEl.textContent = Math.round(counter.v); }
     }, 0);
 
   function whenReady(cb) {
-    var imgReady = !person || person.complete ? Promise.resolve()
-      : new Promise(function (r) { person.addEventListener("load", r, { once: true }); person.addEventListener("error", r, { once: true }); });
+    var vidReady = !heroVideo || heroVideo.readyState >= 2 ? Promise.resolve()
+      : new Promise(function (r) { heroVideo.addEventListener("loadeddata", r, { once: true }); heroVideo.addEventListener("error", r, { once: true }); });
     var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
     var timeout = new Promise(function (r) { setTimeout(r, 3500); });
-    Promise.race([Promise.all([imgReady, fontsReady]), timeout]).then(function () {
+    Promise.race([Promise.all([vidReady, fontsReady]), timeout]).then(function () {
       loadTl.then(cb);
     });
   }
@@ -106,14 +107,13 @@
       onComplete: function () { if (lenis) lenis.start(); }
     });
     tl.to(".loader__inner", { opacity: 0, y: -20, duration: 0.4, ease: "power2.in" })
-      .to(loader, { yPercent: -100, duration: 0.9, ease: "expo.inOut", onComplete: done }, "-=0.1")
-      .to(".hero__bigword span", { opacity: 1, yPercent: 0, duration: 1.4, ease: "expo.out" }, "-=0.45")
-      .to(".hero__name .char > span", { yPercent: 0, duration: 1.1, stagger: 0.035, ease: "expo.out" }, "<0.1")
-      .to(".hero__halo, .hero__orbit", { scale: 1, opacity: 1, duration: 1.4, ease: "expo.out" }, "<")
-      .to(".hero__figure", { y: 0, opacity: 1, scale: 1, duration: 1.5, ease: "expo.out" }, "<0.1")
-      .to(".hero__spark", { opacity: 1, duration: 2, ease: "power2.out" }, "<0.3")
-      .to(".hero__in", { y: 0, opacity: 1, duration: 0.9, stagger: 0.08, ease: "power3.out" }, "<0.25")
-      .to(".chip", { scale: 1, opacity: 1, duration: 0.8, stagger: 0.1, ease: "back.out(2)" }, "<0.2");
+      .to(loader, { yPercent: -100, duration: 1, ease: "expo.inOut", onComplete: done }, "-=0.1")
+      .to(".hero__media", { scale: 1, duration: 2.2, ease: "expo.out" }, "-=0.6")
+      .to(".hero__veil", { opacity: 1, duration: 1.6, ease: "power2.out" }, "<")
+      .to(".hero__frame", { opacity: 1, scale: 1, duration: 1.6, ease: "expo.out" }, "<0.2")
+      .to(".hero__name .char > span", { yPercent: 0, duration: 1.2, stagger: 0.04, ease: "expo.out" }, "<0.1")
+      .to(".hero__in", { y: 0, opacity: 1, duration: 1, stagger: 0.09, ease: "power3.out" }, "<0.35")
+      .to(".hero__spark", { opacity: 1, duration: 2, ease: "power2.out" }, "<");
   });
 
   /* ---------- Parallaxe souris (calques à profondeur data-depth) ---------- */
@@ -121,8 +121,7 @@
   if (finePointer) {
     var layers = Array.prototype.map.call(document.querySelectorAll(".hero [data-depth]"), function (node) {
       var depth = parseFloat(node.getAttribute("data-depth")) || 0;
-      // Le personnage reste posé sur le bandeau : il ne bouge qu'à l'horizontale.
-      var depthY = node.classList.contains("hero__figure") ? 0 : depth;
+      var depthY = depth;
       return {
         depth: depth,
         depthY: depthY,
@@ -144,30 +143,33 @@
   /* ---------- Parallaxe au scroll ---------- */
 
   var heroScroll = { trigger: "#hero", start: "top top", end: "bottom top", scrub: true };
-  gsap.to(".hero__stage", { yPercent: 10, ease: "none", scrollTrigger: heroScroll });
-  gsap.to(".hero__text", { yPercent: 30, opacity: 0.1, ease: "none", scrollTrigger: heroScroll });
-  gsap.to(".hero__bigword", { xPercent: -18, ease: "none", scrollTrigger: heroScroll });
+  gsap.to(".hero__video", { yPercent: 18, scale: 1.08, ease: "none", scrollTrigger: heroScroll });
+  gsap.to(".hero__content", { yPercent: -18, opacity: 0, ease: "none", scrollTrigger: heroScroll });
+  gsap.to(".hero__frame", { opacity: 0, ease: "none", scrollTrigger: heroScroll });
 
-  /* ---------- Showreel : la vidéo s'ouvre en plein écran au scroll ---------- */
+  /* ---------- Poses : le personnage monte dans son arche, en parallaxe ---------- */
 
-  if (document.getElementById("showreel")) {
-    var mm = gsap.matchMedia();
-    mm.add({ small: "(max-width: 700px)", large: "(min-width: 701px)" }, function (ctx) {
-      var small = ctx.conditions.small;
-      var start = small ? "inset(12% 10% 12% 10% round 20px)" : "inset(17% 23% 17% 23% round 32px)";
-      gsap.set(".showreel__caption, .showreel__controls", { opacity: 0, y: 30 });
-      var tl = gsap.timeline({
-        scrollTrigger: { trigger: ".showreel", start: "top top", end: "+=140%", pin: ".showreel__pin", scrub: 1, anticipatePin: 1 }
-      });
-      tl.fromTo(".showreel__frame", { clipPath: start }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
-        .fromTo(".showreel__video", { scale: 1.3 }, { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
-        .fromTo(".showreel__word--a", { xPercent: 0 }, { xPercent: -130, ease: "power2.in", duration: 0.8 }, 0)
-        .fromTo(".showreel__word--b", { xPercent: 0 }, { xPercent: 130, ease: "power2.in", duration: 0.8 }, 0)
-        .to(".showreel__words", { opacity: 0, duration: 0.3 }, 0.55)
-        .to(".showreel__caption, .showreel__controls", { opacity: 1, y: 0, stagger: 0.08, duration: 0.3 }, 0.75);
-      return function () { gsap.set(".showreel__caption, .showreel__controls", { clearProps: "all" }); };
+  gsap.utils.toArray("[data-pose]").forEach(function (fig) {
+    var img = fig.querySelector(".pose__img");
+    var arch = fig.querySelector(".pose__arch");
+    gsap.fromTo(img, { yPercent: 18, opacity: 0 }, {
+      yPercent: 0, opacity: 1, duration: 1.6, ease: "expo.out",
+      scrollTrigger: { trigger: fig, start: "top 82%" }
     });
-  }
+    if (arch) {
+      gsap.fromTo(arch, { clipPath: "inset(100% 0% 0% 0%)" }, {
+        clipPath: "inset(0% 0% 0% 0%)", duration: 1.8, ease: "expo.inOut",
+        scrollTrigger: { trigger: fig, start: "top 85%" }
+      });
+    }
+    var scroll = { trigger: fig, start: "top bottom", end: "bottom top", scrub: true };
+    gsap.fromTo(fig, { y: 60 }, { y: -60, ease: "none", scrollTrigger: scroll });
+    if (arch) gsap.fromTo(arch, { y: -30 }, { y: 40, ease: "none", scrollTrigger: scroll });
+  });
+  gsap.fromTo(".interlude__big", { xPercent: 10 }, {
+    xPercent: -25, ease: "none",
+    scrollTrigger: { trigger: ".interlude", start: "top bottom", end: "bottom top", scrub: true }
+  });
 
   /* ---------- Bandeau défilant (vitesse liée au scroll) ---------- */
 
@@ -286,7 +288,7 @@
 
   function bindTilt() {
     if (!finePointer) return;
-    document.querySelectorAll(".project:not(.has-tilt), .domain:not(.has-tilt)").forEach(function (card) {
+    document.querySelectorAll(".project:not(.has-tilt)").forEach(function (card) {
       card.classList.add("has-tilt");
       var rx = gsap.quickTo(card, "rotationX", { duration: 0.6, ease: "power3.out" });
       var ry = gsap.quickTo(card, "rotationY", { duration: 0.6, ease: "power3.out" });
@@ -294,8 +296,8 @@
         var r = card.getBoundingClientRect();
         var px = (e.clientX - r.left) / r.width;
         var py = (e.clientY - r.top) / r.height;
-        rx((0.5 - py) * 10);
-        ry((px - 0.5) * 12);
+        rx((0.5 - py) * 3);
+        ry((px - 0.5) * 4);
         card.style.setProperty("--mx", px * 100 + "%");
         card.style.setProperty("--my", py * 100 + "%");
       });

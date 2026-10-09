@@ -10,14 +10,15 @@
   var hero = document.getElementById("hero");
   var back = document.getElementById("sparkBack");
   var front = document.getElementById("sparkFront");
-  if (!hero || !back || !front || !back.getContext) return;
+  if (!hero || !front || !front.getContext) return;
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  // Le calque arrière est optionnel : sur l'en-tête vidéo, seul le calque avant existe.
   var layers = [
-    { canvas: back, ctx: back.getContext("2d"), parts: [], minZ: 0.15, maxZ: 0.6 },
-    { canvas: front, ctx: front.getContext("2d"), parts: [], minZ: 0.6, maxZ: 1.5 }
-  ];
+    back ? { canvas: back, ctx: back.getContext("2d"), parts: [], minZ: 0.15, maxZ: 0.6 } : null,
+    { canvas: front, ctx: front.getContext("2d"), parts: [], minZ: 0.3, maxZ: 1.3 }
+  ].filter(Boolean);
   var trail = [];
   var W = 0, H = 0, dpr = 1;
   var mouse = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -47,12 +48,11 @@
     W = r.width; H = r.height;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     var area = W * H;
-    var counts = [Math.round(area / 22000), Math.round(area / 42000)];
-    layers.forEach(function (l, i) {
+    layers.forEach(function (l) {
       l.canvas.width = Math.round(W * dpr);
       l.canvas.height = Math.round(H * dpr);
       l.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var n = Math.min(counts[i], i ? 40 : 70);
+      var n = Math.min(Math.round(area / 30000), 45);
       l.parts = [];
       for (var k = 0; k < n; k++) l.parts.push(make(l, true));
     });
@@ -103,7 +103,7 @@
     });
 
     // Éclats semés par la souris (calque avant)
-    var fctx = layers[1].ctx;
+    var fctx = layers[layers.length - 1].ctx;
     for (var i = trail.length - 1; i >= 0; i--) {
       var s = trail[i];
       s.life -= dt;
